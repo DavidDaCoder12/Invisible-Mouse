@@ -1,0 +1,46 @@
+import serial
+import sqlite3
+import time
+
+# Initialize serial connection
+def init_serial():
+    return serial.Serial("/dev/ttyS0", 115200)
+
+# Initialize SQLite database
+def init_db():
+    conn = sqlite3.connect('lidar_data.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS measurements
+                 (timestamp REAL, distance INTEGER, strength INTEGER, temperature REAL)''')
+    conn.commit()
+    return conn
+
+# Insert data into the database
+def insert_data(conn, timestamp, distance):
+    c = conn.cursor()
+    c.execute("INSERT INTO measurements VALUES (?, ?, ?, ?)", (timestamp, distance))
+    conn.commit()
+
+# Function to read data from LiDAR and store it in the database
+def read_and_store_data(ser, conn):
+    while True:
+        time.sleep(3)  # Check for new data every 2 seconds
+        counter = ser.in_waiting
+        if counter > 8:
+            bytes_serial = ser.read(9)
+            ser.reset_input_buffer()
+
+            if bytes_serial[0] == 0x59 and bytes_serial[1] == 0x59:
+                distance = bytes_serial[2] + bytes_serial[3]*256
+                timestamp = time.time()
+                insert_data(conn, timestamp, distance)
+
+if __name__ == "__main__":
+    ser = init_serial()
+    conn = init_db()
+    try:
+        read_and_store_data(ser, conn)
+    except KeyboardInterrupt:
+        ser.close()
+        conn.close()
+        print("Program interrupted by the user. Exiting.")
