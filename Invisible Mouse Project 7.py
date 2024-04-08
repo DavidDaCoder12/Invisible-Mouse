@@ -6,7 +6,7 @@ import serial
 import time
 
 def read_data(ser):
-    time.sleep(1)  # Initial sleep to stabilize communication
+    time.sleep(.005)  # Initial sleep to stabilize communication
     #readings_count = 0  # Counter for the readings
 
     while True:  # Ensures 2 readings are taken
@@ -18,9 +18,9 @@ def read_data(ser):
             # Check if bytes received start with 0x59 0x59 indicating a valid reading
             if bytes_serial[0] == 0x59 and bytes_serial[1] == 0x59:
                 distance = bytes_serial[2] + bytes_serial[3] * 256  # Calculate distance
+                time.sleep(.005)
                 return distance
-                time.sleep(1)  # Sleep to allow some time between readings
-                #break
+
                 
 def calculate_and_display_movement(ser):
     prev_distance = read_data(ser)
