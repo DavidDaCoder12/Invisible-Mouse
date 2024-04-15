@@ -1,12 +1,22 @@
 import serial
 import time
 import struct
+import pigpio
 
-def read_data(ser, max_distance = 45.72):
-    time.sleep(.2)
+i2c_bus = 1
+lidar_addr = 0x10
+
+pi = pigpio.pi()
+
+handle = pi.i2c_open(i2c_bus, lidar_addr)
+
+def read_data(ser, pi, max_distance = 45.72):
+    time.sleep(.02)
     while True:
+        data = pi.i2c_read_device(handle, 4)
+        
         counter = ser.in_waiting
-        if counter > 8:
+        if counter > 8 and distance_horizontal != 0:
             bytes_serial = ser.read(9)
             ser.reset_input_buffer()
             if bytes_serial[0] == 0x59 and bytes_serial[1] == 0x59:
@@ -14,14 +24,14 @@ def read_data(ser, max_distance = 45.72):
                 #Added max distance about 18 inches in centimeters
                 if distance > max_distance:
                     continue
-                return distance
+                return distance_horizontal, distance_vertical
 
 def calculate_and_display_movement(ser, callback):
     prev_distance = read_data(ser)
     ser.reset_input_buffer()
 
     while True:
-        current_distance = read_data(ser)
+        current_distance = read_data(ser, lidar_addr)
         # Here, use the callback instead of print
         if callback:  # Check if callback is provided
             callback(current_distance, prev_distance)
