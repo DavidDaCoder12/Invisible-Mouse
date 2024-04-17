@@ -35,7 +35,7 @@ def handle_client(clientsocket):
             direction = "moved closer to the origin"'''
 
         # Prepare and send the message
-        message = struct.pack('i', distance_from_origin)
+        message = struct.pack('f', distance_from_origin)
         clientsocket.send(message)
 
     # Run lidar1.main() in a separate thread to avoid blocking
