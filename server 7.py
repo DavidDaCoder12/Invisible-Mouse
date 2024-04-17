@@ -3,7 +3,7 @@ import struct
 import win32api
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("192.168.106.25", 5000))
+s.connect(("10.255.139.107", 5000))
 
 screen_width = win32api.GetSystemMetrics(0)
 screen_height = win32api.GetSystemMetrics(1)
