@@ -3,7 +3,7 @@ import struct  # Import struct to handle binary data (integers)
 import win32api
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("192.168.106.25", 5000))
+s.connect(("10.255.139.107", 5000))
 
 screen_width = win32api.GetSystemMetrics(0)
 screen_height = win32api.GetSystemMetrics(1)
@@ -12,7 +12,7 @@ screen_height = win32api.GetSystemMetrics(1)
 win32api.SetCursorPos((screen_width // 2, screen_height // 2))
 
 # Adjust this value if 'distance_from_origin' is not in centimeters
-cm_per_screen_width = screen_width / 6 
+cm_per_screen_width = screen_width / 25 
 
 while True:
     # Receive 4 bytes from the server, since an integer is 4 bytes
