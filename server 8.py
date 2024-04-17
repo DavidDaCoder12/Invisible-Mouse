@@ -24,7 +24,7 @@ try:
                 current_y = win32api.GetCursorPos()[1]
                 win32api.SetCursorPos((mapped_x_position, current_y))
 
-            elif identifier == 2:
+            if identifier == 2:
                 current_x = win32api.GetCursorPos()[0]
                 mapped_y_position = int(distance_from_origin * cm_per_screen_height)
                 win32api.SetCursorPos((current_x, mapped_y_position))
