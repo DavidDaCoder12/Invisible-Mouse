@@ -10,7 +10,7 @@ screen_height = win32api.GetSystemMetrics(1)
 win32api.SetCursorPos((screen_width // 2, screen_height // 2))
 
 cm_per_screen_width = screen_width / 25
-cm_per_screen_height = screen_height / 25
+cm_per_screen_height = screen_height / 17
 
 try:
     while True:
