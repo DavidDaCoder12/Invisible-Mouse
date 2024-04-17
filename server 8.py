@@ -28,6 +28,8 @@ try:
                 current_x = win32api.GetCursorPos()[0]
                 mapped_y_position = int(distance_from_origin * cm_per_screen_height)
                 win32api.SetCursorPos((current_x, mapped_y_position))
+
+            pass
         else:
             break
 except Exception as e:
