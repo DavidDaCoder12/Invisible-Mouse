@@ -3,7 +3,7 @@ import struct  # Import struct to handle binary data (integers)
 import win32api
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("192.168.34.25", 5000))
+s.connect(("10.84.124.40", 5000))
 
 while True:
     # Receive 4 bytes from the server, since an integer is 4 bytes
